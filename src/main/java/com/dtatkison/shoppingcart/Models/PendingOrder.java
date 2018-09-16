@@ -1,0 +1,46 @@
+package com.dtatkison.shoppingcart.Models;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "PendingOrder")
+public class PendingOrder {
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "pendingOrderId")
+    @Id
+    private Integer pendingOrderId;
+
+    @Column(name = "customerIpAddress")
+    private String customerIpAddress;
+
+    //relationships
+    @ManyToMany(mappedBy = "pendingOrders")
+    private List<Product> products = new ArrayList<>();
+
+    public Integer getPendingOrderId() {
+        return pendingOrderId;
+    }
+
+    public void setPendingOrderId(Integer pendingOrderId) {
+        this.pendingOrderId = pendingOrderId;
+    }
+
+    public String getCustomerIpAddress() {
+        return customerIpAddress;
+    }
+
+    public void setCustomerIpAddress(String customerIpAddress) {
+        this.customerIpAddress = customerIpAddress;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+}
