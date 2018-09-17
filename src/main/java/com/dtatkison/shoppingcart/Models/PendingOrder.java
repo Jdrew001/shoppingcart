@@ -20,6 +20,11 @@ public class PendingOrder {
     @ManyToMany(mappedBy = "pendingOrders")
     private List<Product> products = new ArrayList<>();
 
+    public PendingOrder(PendingOrder order)
+    {
+        this.pendingOrderId = order.pendingOrderId;
+    }
+
     public Integer getPendingOrderId() {
         return pendingOrderId;
     }

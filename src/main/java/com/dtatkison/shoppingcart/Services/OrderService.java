@@ -56,4 +56,12 @@ public class OrderService {
     }
 
     //delete
+    public boolean deleteOrderById(Integer id)
+    {
+        Optional<Order> tempCust = this.orderRepository.findById(id);
+        tempCust.orElseThrow(() -> new RuntimeException("Customer not found"));
+        this.orderRepository.deleteById(id);
+
+        return true;
+    }
 }

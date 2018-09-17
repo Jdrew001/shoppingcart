@@ -39,6 +39,12 @@ public class Product {
         this.productPrice = productPrice;
     }
 
+    public Product(Product product)
+    {
+        this.productName = product.productName;
+        this.productPrice = product.productPrice;
+    }
+
     public Integer getProductId() {
         return productId;
     }
