@@ -16,6 +16,9 @@ public class Product {
     @Column(name = "productName")
     private String productName;
 
+    @Column(name = "description")
+    private String productDescription;
+
     @Column(name = "productPrice")
     private double productPrice;
 
@@ -43,6 +46,7 @@ public class Product {
     {
         this.productName = product.productName;
         this.productPrice = product.productPrice;
+        this.productDescription = product.productDescription;
     }
 
     public Integer getProductId() {
@@ -69,36 +73,11 @@ public class Product {
         this.productPrice = productPrice;
     }
 
+    public String getProductDescription() {
+        return productDescription;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
 }

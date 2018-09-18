@@ -8,12 +8,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class DashboardController {
 
+
     @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
-    public ModelAndView dashboardHome()
+    public String dashboardHome()
     {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/Dashboard");
 
-        return mv;
+        return "Dashboard";
+    }
+
+    //product page
+    @RequestMapping(value = {"/dashboard/products"}, method = RequestMethod.GET)
+    public String productPage()
+    {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/Products");
+
+        return "Products";
+    }
+
+    //customer page
+    @RequestMapping(value = {"/dashboard/customers"}, method = RequestMethod.GET)
+    public String customerPage()
+    {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/Customers");
+
+        return "Customers";
     }
 }

@@ -17,6 +17,10 @@ p {
     color: #999;
 }
 
+.btn-info {
+    background-color: #011742 !important;
+}
+
 a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
@@ -91,7 +95,7 @@ article.content {
     display: block;
 }
 #sidebar ul li a:hover {
-    color: #7386D5;
+    color: #011742;
     background: #fff;
 }
 
@@ -138,12 +142,12 @@ ul.CTAs a {
 
 a.download {
     background: #fff;
-    color: #7386D5;
+    color: #011742;
 }
 
 a.article, a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
+    background: #fff !important;
+    color: #011742; !important;
 }
 
 
@@ -154,6 +158,41 @@ a.article, a.article:hover {
 #content {
     min-height: 100vh;
     transition: all 0.3s;
+}
+
+div.panel-default {
+    margin: 10%;
+}
+div.panel-body {
+    padding: 0px;
+}
+div.modal-fragment div.panel-body {
+    padding: 25px;
+}
+#modal-frag {
+    width: 45%;
+}
+.button-up {
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    right:40px;
+    background-color:#011742;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+}
+.button-up:hover {
+    color: #f7f7f7;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #011b49;
+}
+.button-up i {
+    font-size: 30px;
+    padding: 12px;
 }
 
 /* ---------------------------------------------------

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/style/Dashboard.css}">
+</head>
+<body>
+    <section class="wrapper">
+        <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+        <article class="content">
+            <div id="content">
+                <!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+                <div>
+                    <a id="call-modal" class="button-up">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <h3>Products</h3>
+                </div>
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Product Id</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>View</th>
+                                <th>Delete</th>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>Body Balance</td>
+                                <td>Liquid medicine to make you feel better</td>
+                                <th>$50.00</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- Modal -->
+        <div id="modal-frag" class="panel panel-default modal-fragment">
+            <div class="panel-heading">
+                <div class="text-center">
+                    <h3>Add Product</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form th:action="@{/newproduct}" method="post">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input type="file" class="form-control" id="product_picture" placeholder="Product Picture">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="product_name" placeholder="Product Name">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="description" placeholder="Product Description">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="price" placeholder="Product Price">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1 button-group-1">
+                        <button id="payment-btn" class="btn btn-default btn-block" type="submit">Add Product</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" th:src="@{/javascript/jquery.easyModal.js}"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/javascript/dashboard.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //easy modal
+            $("#modal-frag").easyModal({
+                top: 100,
+                autoOpen: false,
+                overlayOpacity: 0.3,
+                overlayColor: "#333",
+                overlayClose: true,
+                closeOnEscape: true
+            });
+
+            $('#call-modal').click(function() {
+               $("#modal-frag").trigger("openModal");
+            });
+
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+</html>

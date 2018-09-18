@@ -81,6 +81,28 @@ div.button-group-1 button {
     border-radius: 0px;
     padding: 10px 0px;
 }
+.button-up {
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    right:40px;
+    background-color:#7d7d7d;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+    display: none;
+}
+.button-up:hover {
+    color: #f7f7f7;
+    text-decoration: none;
+    cursor: pointer;
+}
+.button-up i {
+    font-size: 30px;
+    padding: 12px;
+}
 div.button-group-2 {
     padding: 5px 0px;
 }
