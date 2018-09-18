@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/style/login-style.css}" rel="stylesheet">
+</head>
+<body>
+    <section>
+        <article class="login-view">
+            <div class="panel panel-default">
+                <div class="col-md-12">
+                    <h3>Admin Login</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form th:action="@{/login}" method="post">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="username" type="email" class="form-control" id="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1">
+                                <p th:text="${error}" style="color: #FF1C19;"></p>
+                            </div>
+                            <div class="col-md-12 button-group-1">
+                                <button id="payment-btn" class="btn btn-default btn-block" type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>

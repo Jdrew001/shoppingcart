@@ -23,10 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails superAdmin =
-            User.withUsername("dtatkison").password("{noop}password").roles("ADMIN").build();
+            User.withUsername("dtatkison@gmail.com").password("{noop}password").roles("ADMIN").build();
 
         UserDetails admin =
-                User.withUsername("djatkison").password("{noop}password").roles("ADMIN").build();
+                User.withUsername("djatkison@gmail.com").password("{noop}password").roles("ADMIN").build();
 
         return new InMemoryUserDetailsManager(superAdmin, admin);
     }
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/dashboard/**").authenticated()
                 .anyRequest().permitAll()
-                .and().formLogin().loginPage("/login").failureForwardUrl("/loginfailure")
+                .and().formLogin().loginPage("/login").failureForwardUrl("/loginfailure").defaultSuccessUrl("/dashboard")
                 .and().logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
     }
 }
