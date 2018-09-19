@@ -106,6 +106,22 @@ public class Product {
         this.imageData = imageData;
     }
 
+    public List<PendingOrder> getPendingOrders() {
+        return pendingOrders;
+    }
+
+    public void setPendingOrders(List<PendingOrder> pendingOrders) {
+        this.pendingOrders = pendingOrders;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     //convert byte to image
     public String convertByteToImage() throws IOException
     {

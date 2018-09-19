@@ -20,9 +20,14 @@ public class PendingOrder {
     @ManyToMany(mappedBy = "pendingOrders")
     private List<Product> products = new ArrayList<>();
 
+    public PendingOrder()
+    {
+
+    }
+
     public PendingOrder(PendingOrder order)
     {
-        this.pendingOrderId = order.pendingOrderId;
+        this.customerIpAddress = order.customerIpAddress;
     }
 
     public Integer getPendingOrderId() {
@@ -47,5 +52,9 @@ public class PendingOrder {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
     }
 }

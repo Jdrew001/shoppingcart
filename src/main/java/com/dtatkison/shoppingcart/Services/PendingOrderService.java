@@ -1,10 +1,13 @@
 package com.dtatkison.shoppingcart.Services;
 
 import com.dtatkison.shoppingcart.Models.PendingOrder;
+import com.dtatkison.shoppingcart.Models.Product;
 import com.dtatkison.shoppingcart.Repositories.PendingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +18,13 @@ public class PendingOrderService {
     private PendingOrderRepository pendingOrderRepository;
 
     //add
-    public boolean addNewPendingOrder(PendingOrder order)
+    public boolean addNewPendingOrder(Product product, String ip)
     {
         try {
-            PendingOrder ord = new PendingOrder(order);
+            PendingOrder ord = new PendingOrder();
+            ord.setCustomerIpAddress(ip);
+            ord.getProducts().add(product);
+            product.getPendingOrders().add(ord);
             this.pendingOrderRepository.save(ord);
         } catch(Exception ex) {
             return false;
@@ -35,6 +41,25 @@ public class PendingOrderService {
         return order.get();
     }
 
+    //get all by ipaddress
+    public List<Product> getAllByCustomerIpAddress(String ipAddress)
+    {
+        PendingOrder pendingOrders = this.pendingOrderRepository.getPendingOrderByCustomerIpAddress(ipAddress);
+        if(pendingOrders == null)
+            return new ArrayList<>();
+        else
+            return pendingOrders.getProducts();
+    }
+
+    public PendingOrder getPendingOrderByIpAddress(String ipAddress)
+    {
+        PendingOrder pendingOrder = this.pendingOrderRepository.getPendingOrderByCustomerIpAddress(ipAddress);
+        if(pendingOrder == null)
+            return null;
+        else
+            return pendingOrder;
+    }
+
     //get all
     public List<PendingOrder> getAllPendingOrders()
     {
@@ -49,6 +74,13 @@ public class PendingOrderService {
         tempCust.orElseThrow(() -> new RuntimeException("Customer not found"));
         this.pendingOrderRepository.deleteById(id);
 
+        return true;
+    }
+
+    //update pending order
+    public boolean addNewProduct(PendingOrder order)
+    {
+        this.pendingOrderRepository.save(order);
         return true;
     }
 }

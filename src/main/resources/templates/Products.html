@@ -36,15 +36,15 @@
                                 <th>Delete</th>
                             </tr>
                             <tr th:each="prod : ${products}">
-                                <td th:text="${prod.getProductId()}"></td>
-                                <td >
-                                    <img class="img-responsive" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" />
+                                <td class="col-md-1" th:text="${prod.getProductId()}"></td>
+                                <td class="col-md-1">
+                                    <img class="img-responsive img-thumbnail" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" />
                                 </td>
-                                <td th:text="${prod.getProductName()}">Body Balance</td>
-                                <td th:text="${prod.getProductDescription()}">Liquid medicine to make you feel better</td>
-                                <th th:text="${prod.getProductPrice()}">$50.00</th>
-                                <th></th>
-                                <th></th>
+                                <td class="col-md-2" th:text="${prod.getProductName()}">Body Balance</td>
+                                <td class="col-md-3" th:text="${prod.getProductDescription()}">Liquid medicine to make you feel better</td>
+                                <td class="col-md-1" th:text="${prod.getProductPrice()}">$50.00</td>
+                                <td class="col-md-1"></td>
+                                <td class="col-md-1"></td>
                             </tr>
                         </table>
                     </div>
