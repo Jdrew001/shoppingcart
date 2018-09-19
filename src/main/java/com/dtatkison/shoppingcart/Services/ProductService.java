@@ -4,7 +4,16 @@ import com.dtatkison.shoppingcart.Models.Product;
 import com.dtatkison.shoppingcart.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +30,7 @@ public class ProductService {
             Product ord = new Product(order);
             this.productRepository.save(ord);
         } catch(Exception ex) {
+            System.out.println(ex.getLocalizedMessage());
             return false;
         }
 
@@ -28,7 +38,7 @@ public class ProductService {
     }
 
     //get one
-    public Product getPendingOrderById(Integer id)
+    public Product getProductById(Integer id)
     {
         Optional<Product> product = this.productRepository.findById(id);
         product.orElseThrow(() -> new RuntimeException("Order not found"));
@@ -36,7 +46,7 @@ public class ProductService {
     }
 
     //get all
-    public List<Product> getAllPendingOrders()
+    public List<Product> getAllProducts()
     {
         List<Product> pendingOrders = this.productRepository.findAll();
         return pendingOrders;
@@ -50,5 +60,11 @@ public class ProductService {
         this.productRepository.deleteById(id);
 
         return true;
+    }
+
+    //image file to byte array
+    public byte[] convertImageFile(MultipartFile image) throws IOException
+    {
+        return image.getBytes();
     }
 }

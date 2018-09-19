@@ -28,17 +28,21 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>Product Id</th>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Price</th>
                                 <th>View</th>
                                 <th>Delete</th>
                             </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>Body Balance</td>
-                                <td>Liquid medicine to make you feel better</td>
-                                <th>$50.00</th>
+                            <tr th:each="prod : ${products}">
+                                <td th:text="${prod.getProductId()}"></td>
+                                <td >
+                                    <img class="img-responsive" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" />
+                                </td>
+                                <td th:text="${prod.getProductName()}">Body Balance</td>
+                                <td th:text="${prod.getProductDescription()}">Liquid medicine to make you feel better</td>
+                                <th th:text="${prod.getProductPrice()}">$50.00</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -57,25 +61,25 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form th:action="@{/newproduct}" method="post">
+                <form th:action="@{/dashboard/product}" method="post" enctype="multipart/form-data">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input type="file" class="form-control" id="product_picture" placeholder="Product Picture">
+                            <input name="productImage" type="file" class="form-control" id="product_picture" placeholder="Product Picture">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="product_name" placeholder="Product Name">
+                            <input th:name="productName" type="text" class="form-control" id="product_name" placeholder="Product Name">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="description" placeholder="Product Description">
+                            <input th:name="productDescription" type="text" class="form-control" id="description" placeholder="Product Description">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="price" placeholder="Product Price">
+                            <input name="productPrice" type="text" class="form-control" id="price" placeholder="Product Price">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1 button-group-1">
