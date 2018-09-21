@@ -1,6 +1,8 @@
 package com.dtatkison.shoppingcart.Models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Customer")
@@ -20,12 +22,6 @@ public class Customer {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "billingAddress")
-    private String billingAddress;
-
-    @Column(name = "shippingAddress")
-    private String shippingAddress;
-
     @Column(name = "creditCardNumber")
     private String creditCardNumber;
 
@@ -41,14 +37,16 @@ public class Customer {
     @Column(name = "expirationDate")
     private String expirationDate;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "customerId")
+    private List<Address> addresses = new ArrayList<>();
+
     public Customer() {}
 
-    public Customer(String email, String firstname, String lastname, String billingAddress, String shippingAddress, String creditCardNumber, String cardType, String nameOnCard, String securityCode, String expirationDate) {
+    public Customer(String email, String firstname, String lastname, String creditCardNumber, String cardType, String nameOnCard, String securityCode, String expirationDate) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.billingAddress = billingAddress;
-        this.shippingAddress = shippingAddress;
         this.creditCardNumber = creditCardNumber;
         this.cardType = cardType;
         this.nameOnCard = nameOnCard;
@@ -59,8 +57,6 @@ public class Customer {
     public Customer(Customer customer) {
         this.email = customer.getEmail();
         this.firstname = customer.getLastname();
-        this.billingAddress = customer.getBillingAddress();
-        this.shippingAddress = customer.getShippingAddress();
         this.creditCardNumber = customer.getCreditCardNumber();
         this.cardType = customer.getCardType();
         this.nameOnCard = customer.getNameOnCard();
@@ -98,22 +94,6 @@ public class Customer {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public String getBillingAddress() {
-        return billingAddress;
-    }
-
-    public void setBillingAddress(String billingAddress) {
-        this.billingAddress = billingAddress;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
     }
 
     public String getCreditCardNumber() {
@@ -154,5 +134,21 @@ public class Customer {
 
     public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public void removeAddress(Address address) {
+        this.addresses.remove(address);
     }
 }
