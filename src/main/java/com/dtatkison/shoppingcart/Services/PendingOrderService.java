@@ -77,25 +77,8 @@ public class PendingOrderService {
         return true;
     }
 
-    public boolean deletePendingOrderByIpAddress(String ip)
-    {
-        PendingOrder tempCust = this.pendingOrderRepository.getPendingOrderByCustomerIpAddress(ip);
-        if(tempCust != null)
-        {
-            this.pendingOrderRepository.deletePendingOrderByCustomerIpAddress(ip);
-            return true;
-        }
-        return false;
-    }
-
     //update pending order
     public boolean addNewProduct(PendingOrder order)
-    {
-        this.pendingOrderRepository.save(order);
-        return true;
-    }
-
-    public boolean removeProductFromCart(PendingOrder order)
     {
         this.pendingOrderRepository.save(order);
         return true;

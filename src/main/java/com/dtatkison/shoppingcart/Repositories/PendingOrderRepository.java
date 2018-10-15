@@ -9,6 +9,5 @@ public interface PendingOrderRepository extends JpaRepository<PendingOrder, Inte
 
     public List<PendingOrder> getAllByCustomerIpAddress(String ip);
     public PendingOrder getPendingOrderByCustomerIpAddress(String ip);
-    public void deletePendingOrderByCustomerIpAddress(String ip);
 
 }

@@ -38,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/dashboard/**").authenticated()
                 .anyRequest().permitAll()
                 .and().formLogin().loginPage("/login").failureForwardUrl("/loginfailure").defaultSuccessUrl("/dashboard")
-                .and().logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .and().csrf().disable();
+                .and().logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
     }
 }
