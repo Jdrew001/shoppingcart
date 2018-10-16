@@ -10,6 +10,7 @@
 </head>
 <body>
 <section>
+    <form th:action="@{/submit}" th:object="${order}" method="POST">
     <article id="shopping-desktop" class="shopping-cart-view hidden-sm hidden-xs">
         <div class="panel panel-default">
             <div class="panel-body" th:if="${products.isEmpty()}">
@@ -129,7 +130,6 @@
                     <h3>Payment Information</h3>
                 </div>
                 <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-1">
-                    <form action="/submit" th:object="${order}" method="POST">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input th:field="*{custFname}" type="text" class="form-control" id="custFname" placeholder="Your first name">
@@ -251,7 +251,6 @@
                         <div class="col-md-12 button-group-1">
                             <button type="submit" id="payment-btn" class="btn btn-default btn-block">Review Order</button>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -364,6 +363,7 @@
             <button class="btn btn-block">Continue Shopping</button>
         </div>
     </article>
+    </form>
 </section>
 </body>
 <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
@@ -383,13 +383,15 @@
 
         //if checkout button1 or two is clicked then fade out the view
         //desktop
-        $("#checkoutBtn1").click(function() {
+        $("#checkoutBtn1").click(function(event) {
+            event.preventDefault();
             $("#shopping-desktop").fadeOut(500, "linear", function() {
                 $("#card-desktop").fadeIn();
             });
         });
 
-        $("#checkoutBtn2").click(function () {
+        $("#checkoutBtn2").click(function (event) {
+            event.preventDefault();
             $("#shopping-mobile").fadeOut(500, "linear", function() {
                $("#card-desktop").fadeIn();
             });
