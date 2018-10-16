@@ -36,8 +36,8 @@ public class ShoppingCartController {
 
     @GetMapping("/")
     public String Cart(Model model, HttpServletRequest request)
-    {   List<Product> products = new ArrayList<>();
-        products = this.pendingOrderService.getAllByCustomerIpAddress(request.getRemoteAddr());
+    {   List<PendingOrderItem> items = new ArrayList<>();
+        items = this.pendingOrderService.getAllByCustomerIpAddress(request.getRemoteAddr());
 
         ModelAndView vm = new ModelAndView();
         List<Address> addresses = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ShoppingCartController {
 
 
         Order order = new Order();
-        order.setProducts(products); // add the products that are in the cart to the order
+        //order.setProducts(items); // add the products that are in the cart to the order
         order.setAddresses(addresses);
 
         model.addAttribute("states", Constants.states);
@@ -56,7 +56,7 @@ public class ShoppingCartController {
         model.addAttribute("ipaddress", request.getRemoteAddr());
 
 
-        model.addAttribute("products", products);
+        model.addAttribute("items", items);
 
         return "Cart";
     }
@@ -66,20 +66,27 @@ public class ShoppingCartController {
     {
         Product product = this.productService.getProductById(Integer.parseInt(productId));
         PendingOrder existingOrder = this.pendingOrderService.getPendingOrderByIpAddress(request.getRemoteAddr());
+        PendingOrderItem item = new PendingOrderItem();
 
         if(existingOrder == null)
         {
             if(product != null)
             {
-                this.pendingOrderService.addNewPendingOrder(product, request.getRemoteAddr());
+                item.setProduct(product);
+                product.getPendingOrderItems().add(item);
+                item.setQuantity(1);
+                this.pendingOrderService.addNewPendingOrder(item, request.getRemoteAddr());
 
                 return "redirect:/";
             }
         } else {
+            item.setProduct(product);
+            item.setQuantity(1);
+            item.setPendingOrder(existingOrder);
             //update existing pendingOrder
-            existingOrder.getProducts().add(product);
-            product.getPendingOrders().add(existingOrder);
-            this.pendingOrderService.addNewProduct(existingOrder);
+            existingOrder.getPendingOrderItems().add(item);
+            product.getPendingOrderItems().add(item);
+            this.pendingOrderService.addNewProduct(existingOrder, item);
             return "redirect:/";
         }
 

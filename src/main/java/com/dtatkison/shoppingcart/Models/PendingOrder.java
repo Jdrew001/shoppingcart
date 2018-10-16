@@ -20,6 +20,9 @@ public class PendingOrder {
     @ManyToMany(mappedBy = "pendingOrders")
     private List<Product> products = new ArrayList<>();
 
+    @OneToMany(mappedBy = "pendingOrder")
+    private List<PendingOrderItem> pendingOrderItems = new ArrayList<>();
+
     public PendingOrder()
     {
 
@@ -56,5 +59,13 @@ public class PendingOrder {
 
     public void addProduct(Product product) {
         this.products.add(product);
+    }
+
+    public List<PendingOrderItem> getPendingOrderItems() {
+        return pendingOrderItems;
+    }
+
+    public void setPendingOrderItems(List<PendingOrderItem> pendingOrderItems) {
+        this.pendingOrderItems = pendingOrderItems;
     }
 }

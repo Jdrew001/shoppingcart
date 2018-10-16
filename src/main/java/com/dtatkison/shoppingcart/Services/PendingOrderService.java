@@ -1,7 +1,9 @@
 package com.dtatkison.shoppingcart.Services;
 
 import com.dtatkison.shoppingcart.Models.PendingOrder;
+import com.dtatkison.shoppingcart.Models.PendingOrderItem;
 import com.dtatkison.shoppingcart.Models.Product;
+import com.dtatkison.shoppingcart.Repositories.PendingOrderItemRepository;
 import com.dtatkison.shoppingcart.Repositories.PendingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,15 +19,19 @@ public class PendingOrderService {
     @Autowired
     private PendingOrderRepository pendingOrderRepository;
 
+    @Autowired
+    private PendingOrderItemRepository pendingOrderItemRepository;
+
     //add
-    public boolean addNewPendingOrder(Product product, String ip)
+    public boolean addNewPendingOrder(PendingOrderItem item, String ip)
     {
         try {
             PendingOrder ord = new PendingOrder();
             ord.setCustomerIpAddress(ip);
-            ord.getProducts().add(product);
-            product.getPendingOrders().add(ord);
+            ord.getPendingOrderItems().add(item);
+            item.setPendingOrder(ord);
             this.pendingOrderRepository.save(ord);
+            this.pendingOrderItemRepository.save(item);
         } catch(Exception ex) {
             return false;
         }
@@ -42,13 +48,13 @@ public class PendingOrderService {
     }
 
     //get all by ipaddress
-    public List<Product> getAllByCustomerIpAddress(String ipAddress)
+    public List<PendingOrderItem> getAllByCustomerIpAddress(String ipAddress)
     {
         PendingOrder pendingOrders = this.pendingOrderRepository.getPendingOrderByCustomerIpAddress(ipAddress);
         if(pendingOrders == null)
             return new ArrayList<>();
         else
-            return pendingOrders.getProducts();
+            return pendingOrders.getPendingOrderItems();
     }
 
     public PendingOrder getPendingOrderByIpAddress(String ipAddress)
@@ -78,8 +84,9 @@ public class PendingOrderService {
     }
 
     //update pending order
-    public boolean addNewProduct(PendingOrder order)
+    public boolean addNewProduct(PendingOrder order, PendingOrderItem item)
     {
+        this.pendingOrderItemRepository.save(item);
         this.pendingOrderRepository.save(order);
         return true;
     }

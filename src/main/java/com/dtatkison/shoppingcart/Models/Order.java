@@ -48,6 +48,9 @@ public class Order {
     @OneToMany(mappedBy ="order")
     private List<Address> addresses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
     public Order() {}
 
     public Order(Date orderDate, String orderStatus, String custFname, String custLname, String cardNum, String cardType, String nameOnCard, String expDate) {
@@ -166,5 +169,13 @@ public class Order {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

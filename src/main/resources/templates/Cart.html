@@ -13,11 +13,11 @@
     <form th:action="@{/submit}" th:object="${order}" method="POST">
     <article id="shopping-desktop" class="shopping-cart-view hidden-sm hidden-xs">
         <div class="panel panel-default">
-            <div class="panel-body" th:if="${products.isEmpty()}">
+            <div class="panel-body" th:if="${items.isEmpty()}">
                 <h3>Shopping Cart</h3>
                 <p>Your cart is empty</p>
             </div>
-            <div class="panel-body" th:if="${!products.isEmpty()}">
+            <div class="panel-body" th:if="${!items.isEmpty()}">
                 <div class="col-md-12">
                     <h3>Shopping Cart</h3>
                 </div>
@@ -28,14 +28,14 @@
                         <th class="col-md-3">Remove</th>
                         <th class="col-md-2">Price</th>
                     </tr>
-                    <tr th:each="prod : ${products}" class="product-row">
+                    <tr th:each="item : ${items}" class="product-row">
                         <td>
                             <div class="col-md-4 padding-5">
-                                <img class="img-thumbnail" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" />
+                                <img class="img-thumbnail" th:src="@{'data:image/png;base64,' + ${item.getProduct().convertByteToImage()}}" />
                             </div>
                             <div class="col-md-8 padding-5" style="text-align: left;">
-                                <h5 th:text="${prod.getProductName()}">Body Balance</h5>
-                                <p th:text="${prod.getProductDescription()}">Liquid medicine to make you feel better</p>
+                                <h5 th:text="${item.getProduct().getProductName()}">Body Balance</h5>
+                                <p th:text="${item.getProduct().getProductDescription()}">Liquid medicine to make you feel better</p>
                             </div>
                         </td>
                         <td>
@@ -45,7 +45,7 @@
                                           <span class="glyphicon glyphicon-minus"></span>
                                         </button>
                                     </span>
-                                <input style="border: 1px solid #f1f1f1;" type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                <input style="border: 1px solid #f1f1f1;" type="text" id="" name="quantity" class="form-control input-number" th:text="@{item.}" min="1" max="100">
                                 <span class="input-group-btn">
                                         <button style="background-color: #f5f5f5; color: #011743; border: 1px solid #f1f1f1;" type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
                                             <span class="glyphicon glyphicon-plus"></span>

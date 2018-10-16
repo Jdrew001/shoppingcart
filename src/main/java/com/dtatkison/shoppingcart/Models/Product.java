@@ -2,14 +2,8 @@ package com.dtatkison.shoppingcart.Models;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import javax.imageio.ImageIO;
 import javax.persistence.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +41,12 @@ public class Product {
             joinColumns = {@JoinColumn(name = "productId")},
             inverseJoinColumns = {@JoinColumn(name = "orderId")})
     private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy="product")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany(mappedBy="product")
+    private List<PendingOrderItem> pendingOrderItems = new ArrayList<>();
 
     private Product() {}
 
@@ -126,5 +126,21 @@ public class Product {
     public String convertByteToImage() throws IOException
     {
         return new String(Base64.encodeBase64(imageData));
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public List<PendingOrderItem> getPendingOrderItems() {
+        return pendingOrderItems;
+    }
+
+    public void setPendingOrderItems(List<PendingOrderItem> pendingOrderItems) {
+        this.pendingOrderItems = pendingOrderItems;
     }
 }
