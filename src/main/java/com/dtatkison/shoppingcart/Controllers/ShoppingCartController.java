@@ -50,7 +50,7 @@ public class ShoppingCartController {
 
         Order order = new Order();
         //order.setProducts(items); // add the products that are in the cart to the order
-        order.setAddresses(addresses);
+        //order.setAddresses(addresses);
 
         model.addAttribute("states", Constants.states);
         model.addAttribute("order", order);
@@ -58,6 +58,9 @@ public class ShoppingCartController {
 
 
         model.addAttribute("items", items);
+
+        //calculate the total price
+        model.addAttribute("totalPrice", calculatePrice(items));
 
         return "Cart";
     }
@@ -101,5 +104,16 @@ public class ShoppingCartController {
 
 
         return "redirect:/"; //TODO: Eventually add a page that says they successfully ordered with an order id
+    }
+
+    private double calculatePrice(List<PendingOrderItem> items)
+    {
+        double total = 0.0;
+
+        for (PendingOrderItem item: items) {
+            total += item.getProduct().getProductPrice();
+        }
+
+        return total;
     }
 }
