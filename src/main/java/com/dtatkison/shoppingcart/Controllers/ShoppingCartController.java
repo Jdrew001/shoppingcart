@@ -36,7 +36,8 @@ public class ShoppingCartController {
 
     @GetMapping("/")
     public String Cart(Model model, HttpServletRequest request)
-    {   List<PendingOrderItem> items = new ArrayList<>();
+    {
+        List<PendingOrderItem> items = new ArrayList<>();
         items = this.pendingOrderService.getAllByCustomerIpAddress(request.getRemoteAddr());
 
         ModelAndView vm = new ModelAndView();
