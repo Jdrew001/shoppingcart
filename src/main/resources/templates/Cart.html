@@ -32,6 +32,7 @@
                     <tr th:each="item : ${items}" class="product-row">
                         <td>
                             <div class="col-md-4 padding-5">
+                                <p class="hidden product-id" th:text="${item.getId()}"></p>
                                 <img class="img-thumbnail" th:src="@{'data:image/png;base64,' + ${item.getProduct().convertByteToImage()}}" />
                             </div>
                             <div class="col-md-8 padding-5" style="text-align: left;">
@@ -70,7 +71,7 @@
                         </td>
                         <td style="padding: 30px">
                             <div class="padding-5 prod-price-total">
-                                <h5 id="prod-total-price" class="total-price">$50.00</h5>
+                                <h5 id="prod-total-price" class="total-price" th:text="'$' + ${#numbers.formatDecimal(item.getQuantity() * item.getProduct().getProductPrice(), 1,2,'POINT')}">$50.00</h5>
                             </div>
                         </td>
                     </tr>
@@ -425,11 +426,25 @@
         $('#quantity-button').click(function(event) {
             event.preventDefault();
             var resultArray = [];
+            var itemIdArray = [];
+            var quantityArray = [];
             var totalResult = 0;
+            var pageURL = $(location).attr("href");
+
+
             $('h5.total-price').each(function() {
                 resultArray.push($(this).text());
             });
 
+            //iterate through the item ids
+            $('p.product-id').each(function() {
+                itemIdArray.push($(this).text());
+            });
+
+            //iterate through the quantity from the products
+            $('input#prod-quantity').each(function() {
+                quantityArray.push($(this).val());
+            });
 
             for(var i = 0; i < resultArray.length; i++) {
                 var amount = resultArray[i].replace("$", "");
@@ -438,6 +453,23 @@
 
             $('#total-price').text("$" + totalResult.toFixed(2));
 
+            for(var i = 0; i < resultArray.length; i++) {
+                var quantity = quantityArray[i];
+                var itemId = itemIdArray[i];
+
+                //Update the data in the db
+                $.ajax({
+                    url : pageURL + 'api/shopping/update/' + itemId + '/' + quantity,
+                    type : 'POST',
+                    success : function(data) {
+                        //alert('Response: '+ data);
+                    },
+                    error : function(request,error)
+                    {
+                        //alert("Request: "+ JSON.stringify(request));
+                    }
+                });
+            }
         });
 
         //change if switch changes

@@ -97,11 +97,21 @@ public class ShoppingCartController {
         return "redirect:/";
     }
     
-    @PostMapping("/submit")
-    public String SubmitOrder(@ModelAttribute("order") Order order, BindingResult result)
+    @PostMapping("/submitOrder")
+    public String SubmitOrder(@ModelAttribute("order") Order order, BindingResult result, HttpServletRequest request)
     {
         System.out.println(order.getCardNum());
+        List<PendingOrderItem> items = new ArrayList<>();
+        items = this.pendingOrderService.getAllByCustomerIpAddress(request.getRemoteAddr());
 
+        List<Address> addresses = new ArrayList<>();
+
+        //When the form is submitted, update these based on the data submitted - if only one is submitted, then delete index 1
+        addresses.add(new Address()); //shipping address -- index 0
+        addresses.add(new Address()); //billing address -- index 1
+
+        //order.setProducts(); // add the products that are in the cart to the order
+        order.setAddresses(addresses);
 
         return "redirect:/"; //TODO: Eventually add a page that says they successfully ordered with an order id
     }
@@ -111,7 +121,7 @@ public class ShoppingCartController {
         double total = 0.0;
 
         for (PendingOrderItem item: items) {
-            total += item.getProduct().getProductPrice();
+            total += (item.getProduct().getProductPrice() * item.getQuantity());
         }
 
         return total;

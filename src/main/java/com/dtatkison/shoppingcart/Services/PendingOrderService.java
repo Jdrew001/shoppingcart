@@ -83,11 +83,23 @@ public class PendingOrderService {
         return true;
     }
 
-    //update pending order
+    //add pending order
     public boolean addNewProduct(PendingOrder order, PendingOrderItem item)
     {
         this.pendingOrderItemRepository.save(item);
         this.pendingOrderRepository.save(order);
         return true;
+    }
+
+    //update pending order items
+    public boolean updateOrderItem(int id, int quantity)
+    {
+        try {
+            this.pendingOrderItemRepository.updateQuantity(quantity, id);
+        } catch(Exception ex) {
+            return false;
+        } finally {
+            return true;
+        }
     }
 }
