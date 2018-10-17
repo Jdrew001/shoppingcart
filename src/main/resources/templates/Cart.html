@@ -23,10 +23,11 @@
                 </div>
                 <table class="table table-condensed col-md-12 row">
                     <tr bordercolor="#f7f7f7">
-                        <th class="col-md-4">Description</th>
+                        <th class="col-md-3">Description</th>
                         <th class="col-md-3">Quantity</th>
-                        <th class="col-md-3">Remove</th>
+                        <th class="col-md-2">Remove</th>
                         <th class="col-md-2">Price</th>
+                        <th class="col-md-2">Total</th>
                     </tr>
                     <tr th:each="item : ${items}" class="product-row">
                         <td>
@@ -67,6 +68,11 @@
                                 <h5 id="prod-price" th:text="'$' + ${#numbers.formatDecimal(item.getProduct().getProductPrice(),1,2,'POINT')}">$50.00</h5>
                             </div>
                         </td>
+                        <td style="padding: 30px">
+                            <div class="padding-5 prod-price-total">
+                                <h5 id="prod-total-price" class="total-price">$50.00</h5>
+                            </div>
+                        </td>
                     </tr>
                 </table>
                 <div class="row">
@@ -97,7 +103,6 @@
                             </div>
                             <div class="col-md-6 total-content">
                                 <h5 id="total-price" th:text="'$' + ${#numbers.formatDecimal(totalPrice,1,2,'POINT')}">$50.00</h5>
-                                <h5 id="total-price-hidden" class="hidden" th:text="'$' + ${#numbers.formatDecimal(totalPrice,1,2,'POINT')}">$50.00</h5>
                             </div>
                         </div>
                     </div>
@@ -114,6 +119,9 @@
                     <div class="col-md-4 checkout">
                         <div class="input-group">
                             <button id="checkoutBtn1" class="btn btn-default">Checkout <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
+                        </div>
+                        <div class="input-group">
+                            <button id="quantity-button" class="btn btn-default">Update Quantity</button>
                         </div>
                         <div class="input-group">
                             <button class="btn btn-default">Continue Shopping</button>
@@ -371,7 +379,7 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script>
-    /*function incrementUp(param)
+    function incrementUp(param)
     {
         $(param).closest('div.input-group').find("input").val(function(i, oldval) {
             var newCount = ++oldval;
@@ -401,17 +409,36 @@
         var currentTotal = Number($(param).closest('div.input-group').closest('div.panel-default').find('div.total-content').find('h5').text().replace("$", ""));
         if(incrementPositive)
         {
-            var newProductTotal = (value * price) + currentTotal;
-            $(param).closest('div.input-group').closest('div.panel-default').find('div.total-content').find('h5').text('$' + Number(newProductTotal).toFixed(2));
+            var newProductTotal = value * price;
+            $(param).closest('div.input-group').closest('tr').find('div.prod-price-total').find("h5").text("$" + Number(newProductTotal).toFixed(2));
+            //$(param).closest('div.input-group').closest('div.panel-default').find('div.total-content').find('h5').text('$' + Number(newProductTotal).toFixed(2));
         } else {
-            var newProductTotal = (value * price) + currentTotal;
-            $(param).closest('div.input-group').closest('div.panel-default').find('div.total-content').find('h5').text('$' + Number(newProductTotal).toFixed(2));
+            var newProductTotal = value * price;
+            $(param).closest('div.input-group').closest('tr').find('div.prod-price-total').find("h5").text("$" + Number(newProductTotal).toFixed(2));
         }
 
 
 
-    }*/
+    }
     $(document).ready(function () {
+
+        $('#quantity-button').click(function(event) {
+            event.preventDefault();
+            var resultArray = [];
+            var totalResult = 0;
+            $('h5.total-price').each(function() {
+                resultArray.push($(this).text());
+            });
+
+
+            for(var i = 0; i < resultArray.length; i++) {
+                var amount = resultArray[i].replace("$", "");
+                totalResult += Number(amount);
+            }
+
+            $('#total-price').text("$" + totalResult.toFixed(2));
+
+        });
 
         //change if switch changes
         $('#switch-checkbox').change(function() {
