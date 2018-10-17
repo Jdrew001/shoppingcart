@@ -19,6 +19,7 @@ package com.dtatkison.shoppingcart.Controllers;
         import javax.servlet.http.HttpServletRequest;
         import javax.validation.Valid;
         import java.util.ArrayList;
+        import java.util.Date;
         import java.util.List;
 
 @Controller
@@ -49,8 +50,7 @@ public class ShoppingCartController {
 
 
         Order order = new Order();
-        //order.setProducts(items); // add the products that are in the cart to the order
-        //order.setAddresses(addresses);
+        order.setAddresses(addresses);
 
         model.addAttribute("states", Constants.states);
         model.addAttribute("order", order);
@@ -100,18 +100,25 @@ public class ShoppingCartController {
     @PostMapping("/submitOrder")
     public String SubmitOrder(@ModelAttribute("order") Order order, BindingResult result, HttpServletRequest request)
     {
-        System.out.println(order.getCardNum());
         List<PendingOrderItem> items = new ArrayList<>();
+        List<OrderItem> orderItems = new ArrayList<>();
         items = this.pendingOrderService.getAllByCustomerIpAddress(request.getRemoteAddr());
+        OrderItem orderItem = new OrderItem();
 
-        List<Address> addresses = new ArrayList<>();
+        for (PendingOrderItem pendingOrderItem: items) {
+            orderItem.setProduct(pendingOrderItem.getProduct());
+            orderItem.setQuantity(pendingOrderItem.getQuantity());
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+        }
 
-        //When the form is submitted, update these based on the data submitted - if only one is submitted, then delete index 1
-        addresses.add(new Address()); //shipping address -- index 0
-        addresses.add(new Address()); //billing address -- index 1
+        order.setOrderDate(new Date());
+        order.setOrderStatus(Constants.PENDING_STATUS);
+        order.setOrderItems(orderItems);
 
-        //order.setProducts(); // add the products that are in the cart to the order
-        order.setAddresses(addresses);
+        //add a new order PARAMS - order
+        this.orderService.addNewOrder(order);
+
 
         return "redirect:/"; //TODO: Eventually add a page that says they successfully ordered with an order id
     }

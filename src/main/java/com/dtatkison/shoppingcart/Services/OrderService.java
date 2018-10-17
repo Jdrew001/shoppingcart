@@ -1,6 +1,10 @@
 package com.dtatkison.shoppingcart.Services;
 
+import com.dtatkison.shoppingcart.Models.Address;
 import com.dtatkison.shoppingcart.Models.Order;
+import com.dtatkison.shoppingcart.Models.OrderItem;
+import com.dtatkison.shoppingcart.Repositories.AddressRepository;
+import com.dtatkison.shoppingcart.Repositories.OrderItemRepository;
 import com.dtatkison.shoppingcart.Repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +17,12 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     //get all
     public List<Order> getAllOrders()
@@ -32,9 +42,24 @@ public class OrderService {
     //add
     public boolean addNewOrder(Order order)
     {
+        //add a new address, orderItem and order
+        //you need to make sure that you add an order to an address
+        //you need to make sure that you add an order to an orderItem
+
         try {
             Order ord = new Order(order);
             this.orderRepository.save(ord);
+            for (Address a : ord.getAddresses()) {
+                Address address = new Address(a);
+                address.setOrder(ord);
+                this.addressRepository.save(address);
+            }
+            for (OrderItem i : ord.getOrderItems())
+            {
+                OrderItem orderItem = new OrderItem(i);
+                orderItem.setOrder(ord);
+                this.orderItemRepository.save(orderItem);
+            }
         } catch(Exception ex) {
             return false;
         }

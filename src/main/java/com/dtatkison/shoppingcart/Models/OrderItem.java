@@ -23,6 +23,12 @@ public class OrderItem {
 
     public OrderItem() { }
 
+    public OrderItem(OrderItem item)
+    {
+        this.product = item.product;
+        this.quantity = item.quantity;
+    }
+
     public OrderItem(Product product, int quantity)
     {
         this.product = product;
@@ -51,5 +57,13 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

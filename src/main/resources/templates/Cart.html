@@ -10,7 +10,7 @@
 </head>
 <body>
 <section>
-    <form th:action="@{/submit}" th:object="${order}" method="POST">
+    <form th:action="@{/submitOrder}" th:object="${order}" method="POST">
     <article id="shopping-desktop" class="shopping-cart-view hidden-sm hidden-xs">
         <div class="panel panel-default">
             <div class="panel-body" th:if="${items.isEmpty()}">
@@ -202,8 +202,8 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div th:field="*{addresses[0].state}" class="form-group">
-                                <select class="form-control">
+                            <div class="form-group">
+                                <select class="form-control" th:field="*{addresses[0].state}">
                                     <option th:each="s : ${states}" th:value="${s}" th:text="${s}"></option>
                                 </select>
                             </div>
@@ -216,7 +216,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="checkbox-inline">
-                                    <input id="switch-checkbox" type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No"> Billing Address is the same
+                                    <input id="switch-checkbox" type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" th:value="on"> Billing Address is the same
                                 </label>
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                             <div class="col-md-12">
                                 <div th:field="*{addresses[1].state}" class="form-group">
                                     <select class="form-control">
-                                        <option th:each="s : ${states}" th:value="${s}" th:text="${s}"></option>
+                                        <option th:each="s : ${states}" th:value="${s}" th:text="${s}" th:field="*{addresses[1].state}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -478,8 +478,12 @@
         $('#switch-checkbox').change(function() {
             if(!$(this).prop('checked')) {
                 $('#billing-address').fadeIn(500, "linear");
+                $(this).val('off')
+                console.log($(this).val());
             } else {
                 $('#billing-address').fadeOut(500, "linear");
+                $(this).val('on')
+                console.log($(this).val());
             }
         });
 
