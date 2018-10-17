@@ -379,6 +379,7 @@
 <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     function incrementUp(param)
     {
@@ -463,6 +464,7 @@
                     type : 'POST',
                     success : function(data) {
                         //alert('Response: '+ data);
+                        swal("Success", "The order quantity is updated!", "success");
                     },
                     error : function(request,error)
                     {

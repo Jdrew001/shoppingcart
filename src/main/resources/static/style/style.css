@@ -132,6 +132,11 @@ label.btn-primary {
     color: white !important;
 }
 
+/*sweet alert styles*/
+.swal-button {
+    background-color: #011742 !important;
+}
+
 /*responsive Styles*/
 @media (max-width: 768px) {
     article.card-payment-view {
