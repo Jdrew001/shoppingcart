@@ -47,18 +47,15 @@ public class OrderService {
         //you need to make sure that you add an order to an orderItem
 
         try {
-            Order ord = new Order(order);
-            this.orderRepository.save(ord);
-            for (Address a : ord.getAddresses()) {
-                Address address = new Address(a);
-                address.setOrder(ord);
-                this.addressRepository.save(address);
+            this.orderRepository.save(order);
+            for (Address a : order.getAddresses()) {
+                a.setOrder(order);
+                this.addressRepository.save(a);
             }
-            for (OrderItem i : ord.getOrderItems())
+            for (OrderItem i : order.getOrderItems())
             {
-                OrderItem orderItem = new OrderItem(i);
-                orderItem.setOrder(ord);
-                this.orderItemRepository.save(orderItem);
+                i.setOrder(order);
+                this.orderItemRepository.save(i);
             }
         } catch(Exception ex) {
             return false;
