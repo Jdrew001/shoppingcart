@@ -26,7 +26,16 @@ public class ShoppingCartRestController {
         } else {
             return new ResponseEntity<>("Error updating quantity", HttpStatus.BAD_REQUEST);
         }
+    }
 
-
+    @PostMapping("/delete/{itemId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable int itemId)
+    {
+        if(this.pendingOrderService.deletePendingOrder(itemId))
+        {
+            return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Error updating quantity", HttpStatus.BAD_REQUEST);
+        }
     }
 }

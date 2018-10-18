@@ -74,12 +74,17 @@ public class PendingOrderService {
     }
 
     //delete
-    public boolean deletePendingOrder(Integer id)
+    public boolean deletePendingOrder(Integer itemId)
     {
-        Optional<PendingOrder> tempCust = this.pendingOrderRepository.findById(id);
-        tempCust.orElseThrow(() -> new RuntimeException("Customer not found"));
-        this.pendingOrderRepository.deleteById(id);
+        PendingOrderItem pendingOrderItem = this.pendingOrderItemRepository.getOne(itemId);
 
+        if(pendingOrderItem.getPendingOrder().getPendingOrderItems().size() <= 1)
+        {
+            this.pendingOrderItemRepository.deleteById(itemId);
+            this.pendingOrderRepository.deleteById(pendingOrderItem.getPendingOrder().getPendingOrderId());
+        } else {
+            this.pendingOrderItemRepository.deleteById(itemId);
+        }
         return true;
     }
 
