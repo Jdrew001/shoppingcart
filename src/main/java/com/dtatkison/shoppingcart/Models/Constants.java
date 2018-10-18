@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Constants {
 
-    public static final String BILLING_ADDRESS = "billing";
-    public static final String SHIPPING_ADDRESS = "shipping";
+    public static final String BILLING_ADDRESS = "BILLING";
+    public static final String SHIPPING_ADDRESS = "SHIPPING";
     public static final String PENDING_STATUS = "PENDING";
     public static final String PLACED_STATUS = "PLACED";
     public static final String COMPLETED_STATUS = "COMPLETED";

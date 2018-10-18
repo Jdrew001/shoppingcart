@@ -103,9 +103,10 @@ public class ShoppingCartController {
         List<PendingOrderItem> items = new ArrayList<>();
         List<OrderItem> orderItems = new ArrayList<>();
         items = this.pendingOrderService.getAllByCustomerIpAddress(request.getRemoteAddr());
-        OrderItem orderItem = new OrderItem();
+
 
         for (PendingOrderItem pendingOrderItem: items) {
+            OrderItem orderItem = new OrderItem();
             orderItem.setProduct(pendingOrderItem.getProduct());
             orderItem.setQuantity(pendingOrderItem.getQuantity());
             orderItem.setOrder(order);

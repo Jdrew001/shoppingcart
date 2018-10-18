@@ -1,6 +1,7 @@
 package com.dtatkison.shoppingcart.Services;
 
 import com.dtatkison.shoppingcart.Models.Address;
+import com.dtatkison.shoppingcart.Models.Constants;
 import com.dtatkison.shoppingcart.Models.Order;
 import com.dtatkison.shoppingcart.Models.OrderItem;
 import com.dtatkison.shoppingcart.Repositories.AddressRepository;
@@ -42,15 +43,23 @@ public class OrderService {
     //add
     public boolean addNewOrder(Order order)
     {
-        //add a new address, orderItem and order
-        //you need to make sure that you add an order to an address
-        //you need to make sure that you add an order to an orderItem
-
         try {
             this.orderRepository.save(order);
+            int count = 0;
             for (Address a : order.getAddresses()) {
-                a.setOrder(order);
-                this.addressRepository.save(a);
+                if(a.getState() != null && a.getCity() != null)
+                {
+                    a.setOrder(order);
+                    if(count == 0)
+                    {
+                        count++;
+                        a.setAddressType(Constants.SHIPPING_ADDRESS);
+                    } else if(count == 1) {
+                        count++;
+                        a.setAddressType(Constants.BILLING_ADDRESS);
+                    }
+                    this.addressRepository.save(a);
+                }
             }
             for (OrderItem i : order.getOrderItems())
             {
