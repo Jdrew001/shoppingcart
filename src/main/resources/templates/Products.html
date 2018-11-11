@@ -22,36 +22,40 @@
                 <div class="text-center">
                     <h3>Products</h3>
                 </div>
-                <div class="panel panel-default">
-
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Product Id</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>View</th>
-                                <th>Delete</th>
-                            </tr>
-                            <tr th:each="prod : ${products}">
-                                <td class="col-md-1" th:text="${prod.getProductId()}"></td>
-                                <td class="col-md-1">
-                                    <img class="img-responsive img-thumbnail" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" />
-                                </td>
-                                <td class="col-md-2" th:text="${prod.getProductName()}">Body Balance</td>
-                                <td class="col-md-3" th:text="${prod.getProductDescription()}">Liquid medicine to make you feel better</td>
-                                <td class="col-md-1" th:text="${prod.getProductPrice()}">$50.00</td>
-                                <td class="col-md-1"></td>
-                                <td class="col-md-1"></td>
-                            </tr>
-                        </table>
+                <div class="col-md-12">
+                    <div th:each="prod : ${products}" class="col-md-3"> <!-- product card -->
+                       <div class="panel panel-default">
+                           <div style="height: 250px" class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="col-md-3 option-button">
+                                        <p id="product-id" class="hidden" th:text="${prod.getProductId()}"></p>
+                                        <button id="delete-btn" type="button" class="btn btn-default btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img style="margin-top: 25px" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" class="img-circle col-md-12">
+                                    </div>
+                                    <div class="col-md-3 option-button">
+                                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                               <div class="col-md-12">
+                                   <h4 th:text="${prod.getProductName()}">Name of Product</h4>
+                               </div>
+                               <div class="col-md-12">
+                                   <p th:text="${prod.getProductDescription()}">description of product</p>
+                               </div>
+                               <div class="col-md-12">
+                                   <p>url</p>
+                               </div>
+                               <div class="col-md-12">
+                                   <p th:text="${prod.getProductPrice()}">price</p>
+                               </div>
+                           </div>
+                       </div>
                     </div>
                 </div>
             </div>
         </article>
-
 
         <!-- Modal -->
         <div id="modal-frag" class="panel panel-default modal-fragment">
@@ -95,6 +99,7 @@
     <script type="text/javascript" th:src="@{/javascript/jquery.easyModal.js}"></script>
     <!-- Bootstrap Js CDN -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script th:src="@{/javascript/dashboard.js}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -115,6 +120,25 @@
 
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
+            });
+
+            //delete button clicked
+
+            $('button#delete-btn').click(function(e) {
+                var itemId = Number($(this).closest('div.option-button').find('p#product-id').text());
+                e.preventDefault();
+                $.ajax({
+                    url : "http://localhost:8080/" + 'api/dashboard/delete/' + itemId,
+                    type : 'POST',
+                    success : function(data) {
+                        //alert('Response: '+ data);
+                        location.reload();
+                    },
+                    error : function(request,error)
+                    {
+                        alert("Request: "+ JSON.stringify(request));
+                    }
+                });
             });
         });
     </script>

@@ -14,6 +14,7 @@ public class AuthenticationController {
     {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("Login");
+        System.out.println("This is a test to see if i");
         return mv;
     }
 

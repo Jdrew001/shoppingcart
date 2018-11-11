@@ -56,7 +56,7 @@ public class DashboardController {
             System.out.println(ex.fillInStackTrace());
         }
 
-        return "redirect:/";
+        return "redirect:/dashboard/products";
     }
 
     //customer page
