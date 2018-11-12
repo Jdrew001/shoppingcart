@@ -49,7 +49,6 @@ public class DashboardController {
                              @RequestParam(value = "productImage", required = true) MultipartFile productImage,
                              @RequestParam(value = "productPrice", required = true) String productPrice, RedirectAttributes redirectAttributes)
     {
-
         try {
             this.productService.addProduct(new Product(productName, Double.parseDouble(productPrice), description, this.productService.convertImageFile(productImage)));
         } catch(IOException ex) {
@@ -58,6 +57,27 @@ public class DashboardController {
 
         return "redirect:/dashboard/products";
     }
+
+    @PostMapping("/dashboard/product/update")
+    public String editProduct(@RequestParam(value = "pName", required = true) String productName,
+                              @RequestParam(value = "pDescription", required = true) String description,
+                              @RequestParam(value = "pImage", required = true) MultipartFile productImage,
+                              @RequestParam(value = "pPrice", required = true) String productPrice,
+                              @RequestParam(value = "productId", required = true) String productId, RedirectAttributes redirectAttributes) {
+
+        try {
+            if(productImage.isEmpty())
+                this.productService.editProduct(new Product(Integer.parseInt(productId), productName, Double.parseDouble(productPrice), description, null));
+            else
+                this.productService.editProduct(new Product(Integer.parseInt(productId), productName, Double.parseDouble(productPrice), description, this.productService.convertImageFile(productImage)));
+
+        } catch(IOException ex) {
+            System.out.println(ex.fillInStackTrace());
+        }
+
+        return "redirect:/dashboard/products";
+    }
+
 
     //customer page
     @RequestMapping(value = {"/dashboard/customers"}, method = RequestMethod.GET)

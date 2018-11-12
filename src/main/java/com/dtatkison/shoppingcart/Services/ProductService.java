@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,18 @@ public class ProductService {
         return true;
     }
 
+    //edit
+    public boolean editProduct(Product product)
+    {
+        if(product.getImageData() == null){
+            Product p = this.productRepository.findById(product.getProductId()).get();
+            product.setImageData(p.getImageData());
+        }
+
+        this.productRepository.save(product);
+        return false;
+    }
+
     //get one
     public Product getProductById(Integer id)
     {
@@ -48,7 +61,8 @@ public class ProductService {
     //get all
     public List<Product> getAllProducts()
     {
-        List<Product> pendingOrders = this.productRepository.findAll();
+        List<Product> pendingOrders = new ArrayList<>();
+        this.productRepository.findAll().forEach(pendingOrders::add);
         return pendingOrders;
     }
 

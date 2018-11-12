@@ -172,6 +172,9 @@ div.modal-fragment div.panel-body {
 #modal-frag {
     width: 45%;
 }
+#modal-frag-edit {
+    width: 45%;
+}
 .button-up {
     position:fixed;
     width:60px;

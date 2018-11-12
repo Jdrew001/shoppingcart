@@ -32,23 +32,23 @@
                                         <button id="delete-btn" type="button" class="btn btn-default btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-md-6">
-                                        <img style="margin-top: 25px" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" class="img-circle col-md-12">
+                                        <img id="product-img" style="margin-top: 25px" th:src="@{'data:image/png;base64,' + ${prod.convertByteToImage()}}" class="img-circle col-md-12">
                                     </div>
                                     <div class="col-md-3 option-button">
-                                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button id="edit-button" type="button" class="btn btn-default btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                     </div>
                                 </div>
                                <div class="col-md-12">
-                                   <h4 th:text="${prod.getProductName()}">Name of Product</h4>
+                                   <h4 id="productName" th:text="${prod.getProductName()}">Name of Product</h4>
                                </div>
                                <div class="col-md-12">
-                                   <p th:text="${prod.getProductDescription()}">description of product</p>
+                                   <p id="productDescription" th:text="${prod.getProductDescription()}">description of product</p>
                                </div>
                                <div class="col-md-12">
                                    <p>url</p>
                                </div>
                                <div class="col-md-12">
-                                   <p th:text="${prod.getProductPrice()}">price</p>
+                                   <p id="productPrice" th:text="${prod.getProductPrice()}">price</p>
                                </div>
                            </div>
                        </div>
@@ -57,7 +57,7 @@
             </div>
         </article>
 
-        <!-- Modal -->
+        <!-- add Modal -->
         <div id="modal-frag" class="panel panel-default modal-fragment">
             <div class="panel-heading">
                 <div class="text-center">
@@ -73,21 +73,65 @@
                     </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input th:name="productName" type="text" class="form-control" id="product_name" placeholder="Product Name">
+                            <input th:name="productName" type="text" class="form-control" placeholder="Product Name">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input th:name="productDescription" type="text" class="form-control" id="description" placeholder="Product Description">
+                            <input th:name="productDescription" type="text" class="form-control" placeholder="Product Description">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            <input name="productPrice" type="text" class="form-control" id="price" placeholder="Product Price">
+                            <input name="productPrice" type="text" class="form-control" placeholder="Product Price">
                         </div>
                     </div>
                     <div class="col-md-10 col-md-offset-1 button-group-1">
-                        <button id="payment-btn" class="btn btn-default btn-block" type="submit">Add Product</button>
+                        <button class="btn btn-default btn-block" type="submit">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- edit modal -->
+        <div id="modal-frag-edit" class="panel panel-default modal-fragment">
+            <div class="panel-heading">
+                <div class="text-center">
+                    <h3>Update Product</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form th:action="@{/dashboard/product/update}" method="post" enctype="multipart/form-data">
+                    <div class="col-md-10 col-md-offset-1">
+                        <input id="pid" name="productId" type="text" class="hidden" >
+                        <div class="form-group">
+                            <img style="padding: 0px; padding-bottom: 15px;" class="img-circle col-md-1" id="imgElement" src="" />
+                            <input id="pImg" name="pImage" type="file" class="form-control hidden" placeholder="Product Picture">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <button id="update-img-btn" type="button" class="btn btn-danger btn-xs">update image</button>
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input id="name-input" th:name="pName" type="text" class="form-control" placeholder="Product Name">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input id="description-input" th:name="pDescription" type="text" class="form-control" placeholder="Product Description">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="form-group">
+                            <input id="price-input" name="pPrice" type="text" class="form-control" placeholder="Product Price">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1 button-group-1">
+                        <button id="payment-btn" class="btn btn-default btn-block" type="submit">Submit</button>
                     </div>
                 </form>
 
@@ -113,8 +157,51 @@
                 closeOnEscape: true
             });
 
+            $("#modal-frag-edit").easyModal({
+                top: 100,
+                autoOpen: false,
+                overlayOpacity: 0.3,
+                overlayColor: "#333",
+                overlayClose: true,
+                closeOnEscape: true
+            });
+
             $('#call-modal').click(function() {
                $("#modal-frag").trigger("openModal");
+            });
+
+            //edit button clicked
+            $('#edit-button').click(function() {
+               $('#modal-frag-edit').trigger("openModal");
+
+               //Data
+               var productId = Number($(this).closest('div.panel-default').find('p#product-id').text());
+               var productName = $(this).closest('div.panel-default').find('h4#productName').text();
+               var productDescription = $(this).closest('div.panel-default').find('p#productDescription').text();
+               var productPrice = Number($(this).closest('div.panel-default').find('p#productPrice').text());
+               var productImage = $(this).closest('div.panel-default').find('img#product-img').attr('src');
+
+                $('input#name-input').val(productName);
+                $('input#pid').val(productId);
+                $('input#description-input').val(productDescription);
+                $('input#price-input').val(productPrice);
+                $('input#edit-text').val('true');
+                $('img#imgElement').attr('src', productImage);
+            });
+
+            $('#update-img-btn').click(function() {
+               //if image is showing, hide it and show input.
+               if($('input#pImg').hasClass('hidden'))
+               {
+                   $('input#pImg').removeClass('hidden');
+                   $('#update-img-btn').text('cancel update');
+                   $('img#imgElement').addClass('hidden');
+               } else {
+                   $('input#pImg').addClass('hidden');
+                   $('input#pImg').val("");
+                   $('#update-img-btn').text('update image');
+                   $('img#imgElement').removeClass('hidden');
+               }
             });
 
 

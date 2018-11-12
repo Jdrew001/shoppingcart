@@ -48,10 +48,19 @@ public class Product {
     @OneToMany(mappedBy="product")
     private List<PendingOrderItem> pendingOrderItems = new ArrayList<>();
 
-    private Product() {}
+    public Product() {}
 
     public Product(String productName, double productPrice, String productDescription, byte[] imageData)
     {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productDescription = productDescription;
+        this.imageData = imageData;
+    }
+
+    public Product(Integer productId, String productName, double productPrice, String productDescription, byte[] imageData)
+    {
+        this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productDescription = productDescription;
